@@ -72,8 +72,9 @@ export default function Card() {
 
 const styles = StyleSheet.create({
   container: {
+    top: 60,
     borderRadius: 12,
-    height: 200,
+    height: 210,
     marginBottom: Platform.select({
       native: 24,
       default: 16,

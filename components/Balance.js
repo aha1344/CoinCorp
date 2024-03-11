@@ -66,9 +66,10 @@ export default function Balance() {
 
 const styles = StyleSheet.create({
   container: {
+    top: 45,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    height: 100,
+    height: 120,
     borderRadius: 6,
     backgroundColor: '#fff',
     borderWidth: 1,
