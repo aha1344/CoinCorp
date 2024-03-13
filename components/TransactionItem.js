@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
   amount: {
     fontSize: 15,
     fontWeight: '600',
-    alignSelf: 'start',
+    alignSelf: 'flex-start',
   },
   icon: {
     height: 36,
     width: 36,
     borderRadius: 6,
     marginRight: 12,
-    alignSelf: 'start',
+    alignSelf: 'flex-start',
   },
 });
