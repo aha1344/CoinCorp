@@ -6,8 +6,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Card from './components/Card';
 import Balance from './components/Balance';
 import Transactions from './components/Transactions';
-import UserInfo from './screens/userinfo.js'
-
+import UserInfo from './screens/userinfo.js';
+import usericon from './assets/user_icon.jpg';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -39,7 +39,7 @@ function UserInfoButton() {
   return (
     <TouchableOpacity onPress={() => navigation.navigate('UserInfo')}>
       <Image
-        source={require('C:/Users/jadal/OneDrive/Desktop/CMPS 271/CMPS271-Ropemaxxing/assets/user_icon.jpg')}
+        source={usericon}
         style={styles.image}
       />
     </TouchableOpacity>
