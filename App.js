@@ -1,14 +1,18 @@
 import { View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
+import * as dotenv from 'dotenv';
+import Email from './components/EmailForm';
 
 import Card from './components/Card';
 import Balance from './components/Balance';
 import Transactions from './components/Transactions';
 
+dotenv.config();
 export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.staticSection}>
+        <Email />
         <Card />
         <Balance />
       </View>
