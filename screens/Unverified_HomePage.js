@@ -1,6 +1,7 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Switch } from 'react-native-paper';
+import History from './History'; // Import the HistoryContent component
 
 const Unverified_HomePage = ({ navigation }) => {
   const [balance, setBalance] = useState(100);
@@ -15,6 +16,7 @@ const Unverified_HomePage = ({ navigation }) => {
       setBalance(100);
     }
   }, [isUSD]);
+
   const handleCurrencyChange = () => {
     if (isUSD) {
       setBalance(previousBalance => previousBalance * 88000);
@@ -27,19 +29,13 @@ const Unverified_HomePage = ({ navigation }) => {
     }
     setIsUSD(!isUSD);
   };
+
   const handleTabPress = (tabName) => {
-    if (tabName === 'history') {
-      navigation.navigate('History');
-    } else {
-      if (activeTab !== tabName) {
-        setActiveTab(tabName);
-      } else {
-        // If the current tab is already active, do nothing
-        return;
-      }
+    if (tabName === activeTab) {
+      return; // If the tab being pressed is already active, do nothing
     }
+    setActiveTab(tabName);
   };
-  
 
   const handleSettingsPress = () => {
     // handle settings press here
@@ -53,95 +49,101 @@ const Unverified_HomePage = ({ navigation }) => {
       maximumFractionDigits: 2,
     }).format(balance);
   };
-  
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topSection}>
-        <View style={styles.wallpaper}>
-          <Image source={require('../assets/adada.jpg')} style={styles.profilepicture} />
-          <View style={styles.textContainer}>
-            <View style={styles.nameContainer}>
-              <Text style={styles.name}>AhmadAdada</Text>
-              <Image source={require('../assets/unverified.png')} style={styles.unverifiedImage} />
+    <View style={styles.container1}>
+      {activeTab === 'home' && (
+        <View style={styles.container}>
+          <View style={styles.topSection}>
+            <View style={styles.wallpaper}>
+              <Image source={require('../assets/adada.jpg')} style={styles.profilepicture} />
+              <View style={styles.textContainer}>
+                <View style={styles.nameContainer}>
+                  <Text style={styles.name}>AhmadAdada</Text>
+                  <Image source={require('../assets/unverified.png')} style={styles.unverifiedImage} />
+                </View>
+                <Text style={styles.phone}>{phoneNumber}</Text>
+              </View>
             </View>
-            <Text style={styles.phone}>{phoneNumber}</Text>
+            <TouchableOpacity style={styles.settingsButton} onPress={handleSettingsPress}>
+              <Image source={require('../assets/settings.png')} style={styles.settingsIcon} />
+            </TouchableOpacity>
+          </View>
+
+          <View style={[styles.creditCard, { backgroundColor: cardColor }]}>
+            <Text style={styles.walletBalance}>Wallet Balance</Text>
+            <Text style={styles.balance}>{formatBalance(balance, currency)}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles.balance}>USD</Text>
+              <Switch
+                value={!isUSD}
+                onValueChange={handleCurrencyChange}
+                color="#009688"
+              />
+              <Text style={styles.balance}>LBP</Text>
+            </View>
+          </View>
+            <View style={styles.container1}>
+            <View style={styles.paymentOptions}>
+              <Text style={styles.paymentText}>Payment Options</Text>
+
+            <View style={[styles.optionButtons]}>
+              <TouchableOpacity>
+                <Image source={require('../assets/Send.png')} style={styles.boxes} />
+                <Text style={styles.texts}>Send</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image source={require('../assets/Top-up.png')} style={styles.boxes} />
+                <Text style={styles.texts}>Top-up</Text>
+              </TouchableOpacity>
+              <TouchableOpacity >
+                <Image source={require('../assets/qrcode.png')} style={styles.boxes} />
+                <Text style={styles.texts}>Scan to pay</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={[styles.optionButtons]}>
+              <TouchableOpacity >
+                <Image source={require('../assets/Request.png')} style={styles.boxes} />
+                <Text style={styles.texts}>Request</Text>
+              </TouchableOpacity>
+              <TouchableOpacity >
+                <Image source={require('../assets/PayOnline.png')} style={styles.boxes} />
+                <Text style={styles.texts}>Payment</Text>
+              </TouchableOpacity>
+              <TouchableOpacity >
+                <Image source={require('../assets/Withdraw.png')} style={styles.boxes} />
+                <Text style={styles.texts}>withdraw</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.settingsButton} onPress={handleSettingsPress}>
-          <Image source={require('../assets/settings.png')} style={styles.settingsIcon} />
-        </TouchableOpacity>
-      </View>
-
-      <View style={[styles.creditCard, { backgroundColor: cardColor }]}>
-        <Text style={styles.walletBalance}>Wallet Balance</Text>
-        <Text style={styles.balance}>{formatBalance(balance, currency)}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles.balance}>USD</Text>
-          <Switch
-            value={!isUSD}
-            onValueChange={handleCurrencyChange}
-            color="#009688"
-          />
-          <Text style={styles.balance}>LBP</Text>
         </View>
-      </View>
+      )}
 
-      <View style={styles.container1}>
-        <View style={styles.paymentOptions}>
-          <Text style={styles.paymentText}>Payment Options</Text>
-        </View>
+      {activeTab === 'history' && (
+        <History />
+      )}
 
-        <View style={[styles.optionButtons]}>
-          <TouchableOpacity>
-            <Image source={require('../assets/Send.png')} style={styles.boxes} />
-            <Text style={styles.texts}>Send</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image source={require('../assets/Top-up.png')} style={styles.boxes} />
-            <Text style={styles.texts}>Top-up</Text>
-          </TouchableOpacity>
-          <TouchableOpacity >
-            <Image source={require('../assets/qrcode.png')} style={styles.boxes} />
-            <Text style={styles.texts}>Scan to pay</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={[styles.optionButtons]}>
-          <TouchableOpacity >
-            <Image source={require('../assets/Request.png')} style={styles.boxes} />
-            <Text style={styles.texts}>Request</Text>
-          </TouchableOpacity>
-          <TouchableOpacity >
-            <Image source={require('../assets/PayOnline.png')} style={styles.boxes} />
-            <Text style={styles.texts}>Payment</Text>
-          </TouchableOpacity>
-          <TouchableOpacity >
-            <Image source={require('../assets/Withdraw.png')} style={styles.boxes} />
-            <Text style={styles.texts}>withdraw</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.bottomNavigation}>
+      <View style={styles.bottomNavigation}>
         <TouchableOpacity
-        style={activeTab === 'home' && styles.activeTab}
-        onPress={() => handleTabPress('home')}>
-        <Image source={require('../assets/Home.png')} style={styles.boxes} />
+          style={activeTab === 'home' && styles.activeTab}
+          onPress={() => handleTabPress('home')}>
+          <Image source={require('../assets/Home.png')} style={styles.boxes} />
         </TouchableOpacity>
-          <TouchableOpacity 
+        <TouchableOpacity 
           style={activeTab === 'history' && styles.activeTab}
           onPress={() => handleTabPress('history')}>
           <Image source={require('../assets/History.png')} style={styles.boxes} />
-          </TouchableOpacity>
-          <TouchableOpacity style={activeTab === 'cards' && styles.activeTab}
+        </TouchableOpacity>
+        <TouchableOpacity style={activeTab === 'cards' && styles.activeTab}
           onPress={() => handleTabPress('cards')}>
           <Image source={require('../assets/Card.png')} style={styles.boxes} />
-          </TouchableOpacity>
-          <TouchableOpacity style={activeTab === 'friends' && styles.activeTab}
+        </TouchableOpacity>
+        <TouchableOpacity style={activeTab === 'friends' && styles.activeTab}
           onPress={() => handleTabPress('friends')}>
           <Image source={require('../assets/Friends.png')} style={styles.boxes} />
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
