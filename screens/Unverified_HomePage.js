@@ -1,8 +1,12 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Switch } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
-const Unverified_HomePage = ({ navigation }) => {
+
+const Unverified_HomePage = () => {
+  const navigation = useNavigation(); // Initialize navigation object
+
   const [balance, setBalance] = useState(100);
   const [currency, setCurrency] = useState('USD');
   const [isUSD, setIsUSD] = useState(true);
@@ -15,6 +19,7 @@ const Unverified_HomePage = ({ navigation }) => {
       setBalance(100);
     }
   }, [isUSD]);
+
   const handleCurrencyChange = () => {
     if (isUSD) {
       setBalance(previousBalance => previousBalance * 88000);
@@ -27,22 +32,34 @@ const Unverified_HomePage = ({ navigation }) => {
     }
     setIsUSD(!isUSD);
   };
+
   const handleTabPress = (tabName) => {
-    if (tabName === 'history') {
-      navigation.navigate('History');
-    } else {
-      if (activeTab !== tabName) {
-        setActiveTab(tabName);
-      } else {
-        // If the current tab is already active, do nothing
-        return;
-      }
+    if (tabName === 'home' && activeTab === 'home') {
+      return; // If already on Home screen, do nothing
+    }
+
+    setActiveTab(tabName);
+    switch (tabName) {
+      case 'home':
+        // No navigation needed if already on Home screen
+        break;
+      case 'history':
+        navigation.navigate('History');
+        break;
+      case 'cards':
+        navigation.navigate('Cards');
+        break;
+      case 'friends':
+        navigation.navigate('Friends');
+        break;
+      default:
+        break;
     }
   };
-  
+
 
   const handleSettingsPress = () => {
-    // handle settings press here
+    navigation.navigate('Settings'); // Navigate to SettingsScreen
   };
 
   const formatBalance = (balance, currency) => {
@@ -53,7 +70,6 @@ const Unverified_HomePage = ({ navigation }) => {
       maximumFractionDigits: 2,
     }).format(balance);
   };
-  
 
   return (
     <View style={styles.container}>
@@ -93,11 +109,11 @@ const Unverified_HomePage = ({ navigation }) => {
         </View>
 
         <View style={[styles.optionButtons]}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleTabPress('home')}>
             <Image source={require('../assets/Send.png')} style={styles.boxes} />
             <Text style={styles.texts}>Send</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleTabPress('history')}>
             <Image source={require('../assets/Top-up.png')} style={styles.boxes} />
             <Text style={styles.texts}>Top-up</Text>
           </TouchableOpacity>
@@ -123,23 +139,25 @@ const Unverified_HomePage = ({ navigation }) => {
         </View>
 
         <View style={styles.bottomNavigation}>
-        <TouchableOpacity
-        style={activeTab === 'home' && styles.activeTab}
-        onPress={() => handleTabPress('home')}>
-        <Image source={require('../assets/Home.png')} style={styles.boxes} />
-        </TouchableOpacity>
-          <TouchableOpacity 
-          style={activeTab === 'history' && styles.activeTab}
-          onPress={() => handleTabPress('history')}>
-          <Image source={require('../assets/History.png')} style={styles.boxes} />
+          <TouchableOpacity
+            style={activeTab === 'home' ? [styles.navButton, styles.activeTab] : styles.navButton}
+            onPress={() => handleTabPress('home')}>
+            <Image source={require('../assets/Home.png')} style={styles.boxes} />
           </TouchableOpacity>
-          <TouchableOpacity style={activeTab === 'cards' && styles.activeTab}
-          onPress={() => handleTabPress('cards')}>
-          <Image source={require('../assets/Card.png')} style={styles.boxes} />
+          <TouchableOpacity
+            style={activeTab === 'history' ? [styles.navButton, styles.activeTab] : styles.navButton}
+            onPress={() => handleTabPress('history')}>
+            <Image source={require('../assets/History.png')} style={styles.boxes} />
           </TouchableOpacity>
-          <TouchableOpacity style={activeTab === 'friends' && styles.activeTab}
-          onPress={() => handleTabPress('friends')}>
-          <Image source={require('../assets/Friends.png')} style={styles.boxes} />
+          <TouchableOpacity
+            style={activeTab === 'cards' ? [styles.navButton, styles.activeTab] : styles.navButton}
+            onPress={() => handleTabPress('cards')}>
+            <Image source={require('../assets/Card.png')} style={styles.boxes} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={activeTab === 'friends' ? [styles.navButton, styles.activeTab] : styles.navButton}
+            onPress={() => handleTabPress('friends')}>
+            <Image source={require('../assets/Friends.png')} style={styles.boxes} />
           </TouchableOpacity>
         </View>
       </View>
