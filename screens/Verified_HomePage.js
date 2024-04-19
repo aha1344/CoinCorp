@@ -9,12 +9,33 @@ const Verified_HomePage = () => {
   const [cardColor, setCardColor] = useState('#076934');
   const [phoneNumber, setPhoneNumber] = useState('+9617125964');
   const [activeTab, setActiveTab] = useState('home');
+  const [userDetails, setUserDetails] = useState(null);
 
   useEffect(() => {
     if (isUSD) {
       setBalance(100);
     }
+    fetchUserProfile(); // Fetch user details on component mount
   }, [isUSD]);
+
+  const fetchUserProfile = () => {
+    // Fetch user profile with JWT token
+    const token = "YOUR_JWT_TOKEN"; // Replace with your JWT token
+    fetch('http://10.169.27.87:3000/auth/profile', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      setUserDetails(data); // Update user details state
+    })
+    .catch(error => {
+      console.error('Error fetching user profile:', error);
+    });
+  };
+
   const handleCurrencyChange = () => {
     if (isUSD) {
       setBalance(previousBalance => previousBalance * 88000);
@@ -27,6 +48,7 @@ const Verified_HomePage = () => {
     }
     setIsUSD(!isUSD);
   };
+
   const handleTabPress = (tabName) => {
     setActiveTab(tabName);
   };
@@ -43,7 +65,6 @@ const Verified_HomePage = () => {
       maximumFractionDigits: 2,
     }).format(balance);
   };
-  
 
   return (
     <View style={styles.container}>
@@ -52,8 +73,8 @@ const Verified_HomePage = () => {
           <Image source={require('../assets/adada.jpg')} style={styles.profilepicture} />
           <View style={styles.textContainer}>
             <View style={styles.nameContainer}>
-              <Text style={styles.name}>AhmadAdada</Text>
-              <Image source={require('../assets/Verified.png')} style={styles.VerifiedImage} />
+              <Text style={styles.name}>{userDetails ? userDetails.username : ''}</Text>
+              {userDetails && userDetails.verified && <Image source={require('../assets/Verified.png')} style={styles.VerifiedImage} />}
             </View>
             <Text style={styles.phone}>{phoneNumber}</Text>
           </View>

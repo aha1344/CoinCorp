@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Modal, Image, FlatList, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Modal, Image, FlatList, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { StackActions } from '@react-navigation/native';
 
 import eyeOffLogo from '../assets/eye-icon.png';
@@ -16,9 +16,35 @@ const Login = ({ navigation }) => {
     const [showCountryCodes, setShowCountryCodes] = useState(false);
     const [selectedCountryCode, setSelectedCountryCode] = useState('+1');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [error, setError] = useState('');
 
     const handleLogin = () => {
-        navigation.dispatch(StackActions.push('SuccessfulSignup'));
+        if (!email || !password) {
+            setError('Please enter both email and password.');
+            return;
+        }
+
+        // Replace 'http://your-backend-url/login' with the actual URL of your backend login endpoint
+        fetch('http://10.169.27.87:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
+            return response.json();
+        })
+        .then(data => {
+            navigation.dispatch(StackActions.push('SuccessfulSignup'));
+        })
+        .catch(error => {
+            setError('Invalid email or password. Please try again.');
+            console.error('Login error:', error);
+        });
     };
 
     const togglePasswordVisibility = () => {
@@ -59,8 +85,6 @@ const Login = ({ navigation }) => {
         setIsMobileModalVisible(false);
         navigation.dispatch(StackActions.push('OTP'));
     };
-
-    
 
     return (
         <TouchableWithoutFeedback onPress={() => {
@@ -105,6 +129,7 @@ const Login = ({ navigation }) => {
                     <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
                         <Text style={styles.loginButtonText}>Login</Text>
                     </TouchableOpacity>
+                    {error ? <Text style={styles.errorText}>{error}</Text> : null}
                 </View>
                 <Modal
                     animationType="slide"
@@ -213,6 +238,7 @@ const Login = ({ navigation }) => {
         </TouchableWithoutFeedback>
     );
 };    
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -364,7 +390,10 @@ const styles = StyleSheet.create({
         alignItems: 'center', // Center the items vertically
         justifyContent: 'center', // Center the items horizontally
     },
- }
-);
+    errorText: {
+        color: 'red',
+        marginTop: 10,
+    },
+});
 
 export default Login;
