@@ -13,6 +13,10 @@ import ResetScreen from './screens/Reset_Password';
 import SuccessfulScreen from './screens/Successfull_Reset';
 import OTPScreen from './screens/OTP';
 import HistoryScreen from './screens/History';
+import SettingsScreen from './screens/Settings';
+import FriendsScreen from './screens/Friends';
+import NotificationsScreen from './screens/Notifications';
+import AddFriendsScreen from './screens/AddFriends';
 
 
 const Stack = createStackNavigator();
@@ -23,7 +27,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       setAppReady(true);
-    }, 2000); 
+    }, 2000);
   }, []);
 
   if (!isAppReady) {
@@ -36,13 +40,17 @@ export default function App() {
         <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="CreateAccount" component={CreateAccountScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name='Reset' component={ResetScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="SuccessfulSignup" component={SuccessfulSignup} options={{ headerShown: false}}/>
-        <Stack.Screen name="Unverified_HomePage" component={Unverified_HomePage} options={{headerShown: false}}/>
-        <Stack.Screen name='Terms_Conditions' component={Terms_Conditions} options={{headerShown: false}}/>
-        <Stack.Screen name="Successfulreset" component={SuccessfulScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="OTP" component={OTPScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="History" component={HistoryScreen} options={{headerShown: false}}/>
+        <Stack.Screen name='Reset' component={ResetScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SuccessfulSignup" component={SuccessfulSignup} options={{ headerShown: false }} />
+        <Stack.Screen name="Unverified_HomePage" component={Unverified_HomePage} options={{ headerShown: false }} />
+        <Stack.Screen name='Terms_Conditions' component={Terms_Conditions} options={{ headerShown: false }} />
+        <Stack.Screen name="Successfulreset" component={SuccessfulScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="OTP" component={OTPScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="History" component={HistoryScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Friends" component={FriendsScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="AddFriends" component={AddFriendsScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
