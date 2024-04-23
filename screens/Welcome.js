@@ -44,7 +44,7 @@ const WelcomeScreen = () => {
     return (
         <TouchableWithoutFeedback onPress={() => {
             Keyboard.dismiss();
-            setShowCountryCodes(false); // This will also close the modal when tapping outside
+            setShowCountryCodes(false);
         }}>
             <View style={styles.container}>
                 <View style={styles.blackBox}>
@@ -112,7 +112,7 @@ const WelcomeScreen = () => {
                 >
                     <TouchableOpacity
                         style={styles.fullScreenTouchable}
-                        activeOpacity={1} // Keep this to 1 so that there's no visual feedback when tapping outside the modal
+                        activeOpacity={1}
                         onPress={() => setShowCountryCodes(false)}
                     >
                         <KeyboardAvoidingView
@@ -176,22 +176,21 @@ const styles = StyleSheet.create({
     },
     enterMobile: {
         top: 15,
-        alignSelf: 'flex-start', // Aligns text to the left
-        marginLeft: 20, // Adjust this as necessary for your layout
+        alignSelf: 'flex-start',
+        marginLeft: 20,
         fontSize: 26,
         fontWeight: 'bold',
         color: 'black',
-        marginBottom: 10, // Adjust this as necessary for your layout
+        marginBottom: 10,
     },
     label: {
-        alignSelf: 'flex-start', // Aligns text to the left
+        alignSelf: 'flex-start',
         top: 30,
         color: 'black',
         fontWeight: 'bold',
-        
     },
     inputContainer: {
-        flexDirection: 'row', // Change to row-reverse
+        flexDirection: 'row',
         alignItems: 'center',
         marginTop: 40,
         borderWidth: 1,
@@ -267,15 +266,14 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     downArrow: {
-        // Adjust size as needed.
         width: 10,
         height: 6,
-        marginLeft: 5, // Space between the country code and arrow
+        marginLeft: 5,
     },
     countryCodeContainer: {
         flexDirection: 'row',
-        alignItems: 'center', // Center the items vertically
-        justifyContent: 'center', // Center the items horizontally
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     separator: {
         flex: 1,
@@ -322,6 +320,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
 });
-
 
 export default WelcomeScreen;

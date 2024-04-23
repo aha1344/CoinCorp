@@ -34,13 +34,14 @@ const Login = ({ navigation }) => {
         setIsMobileModalVisible(false);
         setModalEmail('');
     };
-    
+
     const toggleMobileModal = () => {
         setIsMobileModalVisible(!isMobileModalVisible);
         if (!isMobileModalVisible) {
             setIsModalVisible(false);
         }
     };
+
     const countryCodes = [
         { code: '+1', country: 'USA' },
         { code: '+91', country: 'India' },
@@ -51,16 +52,16 @@ const Login = ({ navigation }) => {
         setSelectedCountryCode(code);
         setShowCountryCodes(false);
     };
+
     const Reset = () => {  
         setIsModalVisible(false);
         navigation.dispatch(StackActions.push('Reset'));
     };
+
     const OTP = () => {  
         setIsMobileModalVisible(false);
         navigation.dispatch(StackActions.push('OTP'));
     };
-
-    
 
     return (
         <TouchableWithoutFeedback onPress={() => {
@@ -213,6 +214,7 @@ const Login = ({ navigation }) => {
         </TouchableWithoutFeedback>
     );
 };    
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -366,7 +368,6 @@ const styles = StyleSheet.create({
         alignItems: 'center', // Center the items vertically
         justifyContent: 'center', // Center the items horizontally
     },
- }
-);
+});
 
 export default Login;

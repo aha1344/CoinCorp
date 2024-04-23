@@ -35,13 +35,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   successContainer: {
-    flexDirection: 'row', // Aligns items in a row
-    alignItems: 'center', // Centers items vertically within the row
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20,
   },
   successText: {
     fontSize: 20,
-    marginRight: 10, // Adjust space between the text and the check mark as needed
+    marginRight: 10,
   },
   ResetButton: {
     backgroundColor: 'black',

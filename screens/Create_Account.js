@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-import {
-    View,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    Image,
-    Keyboard,
-    TouchableWithoutFeedback,
-} from 'react-native';
-
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Image, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import facebookLogo from '../assets/facebook.png';
 import googleLogo from '../assets/google.png';
 import appleLogo from '../assets/apple.png';
@@ -85,7 +75,6 @@ const CreateAccountScreen = ({ navigation,route }) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
-                {/* Back Button */}
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                     <Text style={styles.backButtonText}>{'< Back'}</Text>
                 </TouchableOpacity>
@@ -113,7 +102,7 @@ const CreateAccountScreen = ({ navigation,route }) => {
                     <TextInput
                         style={[styles.input, emailError ? styles.inputError : null]}
                         placeholder="e.g. email@example.com"
-                        onChangeText={setEmail} // Only set the email state here
+                        onChangeText={setEmail}
                         value={email}
                         keyboardType="email-address"
                     />
@@ -241,7 +230,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     inputError: {
-        borderColor: 'red', // Change border color to indicate error
+        borderColor: 'red',
     },
     errorText: {
         color: 'red',
@@ -314,7 +303,7 @@ const styles = StyleSheet.create({
     },
     loginContainer: {
         flexDirection: 'row',
-        marginTop: 20, // Adjust this value as needed
+        marginTop: 20,
     },
     loginText: {
         fontWeight: 'bold',
@@ -361,7 +350,6 @@ const styles = StyleSheet.create({
         color: 'red',
         marginBottom: 10,
     },
-    
 });
 
 export default CreateAccountScreen;

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     loadingText: {
-        fontWeight: 'bold', // Ensure boldness
+        fontWeight: 'bold',
         color: 'white',
         fontSize: 18,
         marginBottom: 10,

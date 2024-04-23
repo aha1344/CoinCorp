@@ -3,7 +3,6 @@ import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, SectionList
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Clipboard from 'expo-clipboard';
 
-
 const HistoryScreen = () => {
   const allTransactions = [
     { id: 1, name: 'Toters', time: 'Today 12:32', amount: '-$35.23', paidWith: 'Card', imageUrl: require('../assets/Toters.png') },
@@ -27,25 +26,27 @@ const HistoryScreen = () => {
   const [transactionModalVisible, setTransactionModalVisible] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
 
-
   const report = () => {
-      alert('Report sent!');
-    };
+    alert('Report sent!');
+  };
+
   const handleCopyToClipboard = () => {
     const { transactionNumber } = selectedTransaction;
     if (transactionNumber) {
       Clipboard.setStringAsync(transactionNumber.toString());
-      // Show some feedback to the user, e.g., a toast message
       alert('Transaction number copied to clipboard!');
     }
   };
+
   const getRandomTransactionNumber = () => {
-    return Math.floor(Math.random() * 9000000000) + 1000000000; // Generates a random 10-digit number
+    return Math.floor(Math.random() * 9000000000) + 1000000000;
   };
+
   const handleArrowPress = (transaction) => {
     setSelectedTransaction({ ...transaction, transactionNumber: getRandomTransactionNumber() });
     setTransactionModalVisible(true);
   };
+
   const groupTransactionsByDay = () => {
     const transactionsByDay = {};
     searchResults.forEach((transaction) => {
@@ -57,6 +58,7 @@ const HistoryScreen = () => {
     });
     return Object.entries(transactionsByDay).map(([day, data]) => ({ title: day, data }));
   };
+
   const filterTransactions = () => {
     if (searchText.trim()) {
       const filteredTransactions = allTransactions.filter(transaction =>
@@ -67,23 +69,21 @@ const HistoryScreen = () => {
       setSearchResults(allTransactions);
     }
   };
-      // This function is called every time the search text is updated
-    const handleSearch = (text) => {
-      setSearchText(text);
-      filterTransactions(text);
-    };
+
+  const handleSearch = (text) => {
+    setSearchText(text);
+    filterTransactions(text);
+  };
   
-    // Call filterTransactions whenever searchText is updated
-    useEffect(() => {
-      filterTransactions();
-    }, [searchText]);
-  
+  useEffect(() => {
+    filterTransactions();
+  }, [searchText]);
 
   const handleFilterPress = () => {
     setFilterModalVisible(true);
   };
 
-  const togglePriceSort = (sortOrder) => {ç
+  const togglePriceSort = (sortOrder) => {
     setPriceSort(sortOrder);
     filterTransactions();
   };
@@ -102,9 +102,11 @@ const HistoryScreen = () => {
     setDateTo(date);
     filterTransactions();
   };
+
   const handleDonePress = () => {
     setTransactionModalVisible(false);
   };
+
   const renderTransactionItem = ({ item }) => (
     <View style={[styles.transactionItem, styles.borderBottom]}>
       <Image source={item.imageUrl} style={styles.transactionImage} />
@@ -114,13 +116,13 @@ const HistoryScreen = () => {
       </View>
       <Text style={[styles.transactionAmount, { color: item.amount.includes('-') ? 'red' : 'green' }]}>{item.amount}</Text>
       <TouchableOpacity style={styles.arrowButton} onPress={() => handleArrowPress(item)}>
-      <Ionicons name="arrow-forward-outline" size={20} color="black" />
+        <Ionicons name="arrow-forward-outline" size={20} color="black" />
       </TouchableOpacity>
     </View>
   );
 
   return (
-      <View style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.searchAndFilterContainer}>
         <TextInput
           style={styles.input}
@@ -128,9 +130,6 @@ const HistoryScreen = () => {
           value={searchText}
           onChangeText={handleSearch}
         />
-        <TouchableOpacity style={styles.filterButton} onPress={() => setFilterModalVisible(true)}>
-          <Text style={styles.filterText}>Filter</Text>
-        </TouchableOpacity>
       </View>
 
       <SectionList
@@ -144,7 +143,7 @@ const HistoryScreen = () => {
         )}
       />
 
-     <Modal visible={filterModalVisible} animationType="slide" transparent={true}>
+      <Modal visible={filterModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <TouchableOpacity style={styles.closeButton} onPress={() => setFilterModalVisible(false)}>
@@ -215,79 +214,79 @@ const HistoryScreen = () => {
       </Modal>
       {selectedTransaction && (
        <Modal
-       visible={transactionModalVisible}
-       animationType="slide"
-       transparent={true}
-     >
-       <View style={styles.modalOverlay}>
-         <View style={[styles.transactionModal, styles.bottomModal]}>
-           <View style={styles.transactionDetailContainer}>
-             <View style={styles.transactionDetailHeader}>
-               <Image
-                 source={selectedTransaction.imageUrl}
-                 style={styles.transactionDetailImage}
-               />
-               <View style={styles.transactionDetailNameContainer}>
-                 <Text style={styles.transactionDetailName}>
-                   {selectedTransaction.name}
-                 </Text>
-                 <Text style={styles.transactionDetailPaymentMethod}>
-                  Paid with: {selectedTransaction.paidWith}
-                </Text>
-                 
+         visible={transactionModalVisible}
+         animationType="slide"
+         transparent={true}
+       >
+         <View style={styles.modalOverlay}>
+           <View style={[styles.transactionModal, styles.bottomModal]}>
+             <View style={styles.transactionDetailContainer}>
+               <View style={styles.transactionDetailHeader}>
+                 <Image
+                   source={selectedTransaction.imageUrl}
+                   style={styles.transactionDetailImage}
+                 />
+                 <View style={styles.transactionDetailNameContainer}>
+                   <Text style={styles.transactionDetailName}>
+                     {selectedTransaction.name}
+                   </Text>
+                   <Text style={styles.transactionDetailPaymentMethod}>
+                     Paid with: {selectedTransaction.paidWith}
+                   </Text>
+                 </View>
+                 <TouchableOpacity
+                   style={styles.doneButton}
+                   onPress={handleDonePress}
+                 >
+                   <Text style={styles.doneButtonText}>Done</Text>
+                 </TouchableOpacity>
                </View>
-               <TouchableOpacity
-                 style={styles.doneButton}
-                 onPress={handleDonePress}
-               >
-                 <Text style={styles.doneButtonText}>Done</Text>
-               </TouchableOpacity>
-             </View>
-             <View
-                style={[
-                  styles.transactionDetailAmountContainer,
-                  {
-                    backgroundColor: selectedTransaction.amount.includes('-')
-                      ? '#f8d7da' // Background color for negative amounts
-                      : '#d4edda', // Background color for positive amounts
-                    borderRadius: 5,
-                  },
-                ]}
-              >
-                <Text
+               <View
                   style={[
-                    styles.transactionDetailAmount,
+                    styles.transactionDetailAmountContainer,
                     {
-                      color: selectedTransaction.amount.includes('-')
-                        ? '#721c24' // Text color for negative amounts
-                        : '#155724', // Text color for positive amounts
+                      backgroundColor: selectedTransaction.amount.includes('-')
+                        ? '#f8d7da' 
+                        : '#d4edda', 
+                      borderRadius: 5,
                     },
                   ]}
                 >
-                  {selectedTransaction.amount}
-                </Text>
-              </View>
-              <View style={styles.Container2}>
-                <Text style={styles.textmodal}>{selectedTransaction.time}</Text>
-              </View>
-              <View style={[styles.Container2, { flexDirection: 'row', alignItems: 'center' }]}>
-                <Text style={styles.textmodal}> Transaction no.:</Text>
-                <Text style={styles.textmodal}> {selectedTransaction.transactionNumber}</Text>
-                <TouchableOpacity onPress={() => handleCopyToClipboard(selectedTransaction)}>
-                  <Image source={require('../assets/copy.png')} style={styles.copyIcon} />
-                </TouchableOpacity>
-              </View>
+                  <Text
+                    style={[
+                      styles.transactionDetailAmount,
+                      {
+                        color: selectedTransaction.amount.includes('-')
+                          ? '#721c24' 
+                          : '#155724', 
+                      },
+                    ]}
+                  >
+                    {selectedTransaction.amount}
+                  </Text>
+                </View>
+                <View style={styles.Container2}>
+                  <Text style={styles.textmodal}>{selectedTransaction.time}</Text>
+                </View>
+                <View style={[styles.Container2, { flexDirection: 'row', alignItems: 'center' }]}>
+                  <Text style={styles.textmodal}> Transaction no.:</Text>
+                  <Text style={styles.textmodal}> {selectedTransaction.transactionNumber}</Text>
+                  <TouchableOpacity onPress={() => handleCopyToClipboard(selectedTransaction)}>
+                    <Image source={require('../assets/copy.png')} style={styles.copyIcon} />
+                  </TouchableOpacity>
+                </View>
+             </View>
+              <TouchableOpacity onPress={() => report()}>
+                <Image source={require('../assets/Report.png')} style={styles.flag} />
+              </TouchableOpacity>
            </View>
-            <TouchableOpacity onPress={() => report()}>
-              <Image source={require('../assets/Report.png')} style={styles.flag} />
-            </TouchableOpacity>
          </View>
-       </View>
-     </Modal>
+       </Modal>
       )}
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -498,11 +497,11 @@ const styles = StyleSheet.create({
   transactionDetailTime: {
     fontSize: 14,
     color: 'black',
-    textAlign: 'left', // Align text to the left
-    width: '100%', // Ensure it takes full width to align properly
-    borderBottomWidth: 6, // Add bottom border
-    borderBottomColor: 'grey', // Set border color
-    paddingBottom: 5, // Padding bottom for visual comfort
+    textAlign: 'left', 
+    width: '100%', 
+    borderBottomWidth: 6, 
+    borderBottomColor: 'grey', 
+    paddingBottom: 5, 
   },
   doneButton: {
     backgroundColor: 'black',
@@ -534,26 +533,26 @@ const styles = StyleSheet.create({
   transactionDetailNumber: {
     fontSize: 14,
     marginBottom: 20,
-    textAlign: 'left', // Align text to the left
-    width: '100%', // Ensure it takes full width to align properly
-    borderBottomWidth: 1, // Add bottom border
-    borderBottomColor: '#ddd', // Set border color
-    paddingBottom: 5, // Padding bottom for visual comfort
+    textAlign: 'left', 
+    width: '100%', 
+    borderBottomWidth: 1, 
+    borderBottomColor: '#ddd', 
+    paddingBottom: 5, 
   },
   Container2: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1, // Add border on all sides
-    borderColor: 'lightgrey', // Set border color
-    borderRadius: 5, // Round the corners
-    padding: 20, // Add some padding
-    marginBottom: 10, // Add margin at the bottom
+    borderWidth: 1, 
+    borderColor: 'lightgrey', 
+    borderRadius: 5, 
+    padding: 20, 
+    marginBottom: 10, 
   },
   copyIcon: {
     width: 20,
     height: 20,
-    marginLeft: 130, // Align to the right
+    marginLeft: 130, 
   },
   textmodal: {  
     fontSize: 12,

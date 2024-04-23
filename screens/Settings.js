@@ -7,7 +7,7 @@ const SettingsScreen = ({ navigation }) => {
     };
 
     const handleOptionPress = (option) => {
-        // Handle option press here
+        
     };
 
     return (
@@ -46,12 +46,12 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
-        alignItems: 'center', // Vertical alignment
-        justifyContent: 'space-between', // Horizontal alignment (distribute items)
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
 
-        height: 95, // Reduced header height
+        height: 95, 
         backgroundColor: 'black',
-        paddingHorizontal: 20, // Added horizontal padding
+        paddingHorizontal: 20, 
     },
     backButton: {
         color: 'white',
@@ -65,15 +65,14 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         marginTop: 18,
         marginRight: 110,
-        // Removed text alignment (centered by justifyContent)
     },
     optionsContainer: {
         flex: 1,
-        paddingVertical: 20, // Adjusted vertical padding
-        paddingHorizontal: 20, // Added horizontal padding
+        paddingVertical: 20, 
+        paddingHorizontal: 20, 
     },
     option: {
-        paddingVertical: 15, // Adjusted padding
+        paddingVertical: 15, 
     },
     optionText: {
         fontSize: 18,

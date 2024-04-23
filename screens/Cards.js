@@ -2,32 +2,24 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, TouchableWithoutFeedback } from 'react-native';
 
 const CardsScreen = () => {
-  // State to handle the visibility of the modal
   const [modalVisible, setModalVisible] = useState(false);
-
-  // State to store the credit card details
   const [fullName, setFullName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expDate, setExpDate] = useState('');
   const [cvv, setCVV] = useState('');
 
-  // Function to handle the confirmation of the card details
   const handleConfirm = () => {
-    // You can implement your logic here to handle the confirmation of the card details
-    // For example, validate the card details and then save them or send them to your server
     setModalVisible(false);
   };
 
   return (
     <View style={styles.container}>
-      {/* Button to open the modal */}
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
         style={styles.button}>
         <Text style={styles.buttonText}>Add card</Text>
       </TouchableOpacity>
 
-      {/* Modal for adding card details */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -92,13 +84,12 @@ const CardsScreen = () => {
   );
 };
 
-// Styles for the components
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5', // You can change this color to match your theme
+    backgroundColor: '#F5F5F5',
   },
   button: {
     paddingHorizontal: 20,
@@ -130,7 +121,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: '90%', // Adjust as needed
+    width: '90%',
   },
   closeButton: {
     position: 'absolute',
@@ -152,18 +143,18 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: '#DDD', // Change the border color as needed
+    borderColor: '#DDD',
     padding: 10,
     width: '100%',
     borderRadius: 5,
-    backgroundColor: '#FFF', // Change the background color as needed
+    backgroundColor: '#FFF',
   },
   confirmButton: {
     backgroundColor: 'black',
     borderRadius: 20,
     padding: 15,
     elevation: 2,
-    width: '100%', // Adjust as needed
+    width: '100%',
     marginTop: 20,
   },
   confirmButtonText: {
