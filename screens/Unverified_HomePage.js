@@ -6,7 +6,7 @@ import Friends from './Friends'; // Import the FriendsContent component
 import Cards from './Cards'; // Import the CardsContent component
 
 const Unverified_HomePage = ({ navigation }) => {
-  const [balance, setBalance] = useState(100);
+  const [balance, setBalance] = useState(0);
   const [currency, setCurrency] = useState('USD');
   const [isUSD, setIsUSD] = useState(true);
   const [cardColor, setCardColor] = useState('#076934');
@@ -14,6 +14,7 @@ const Unverified_HomePage = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState('home');
   const [paymentMethod, setPaymentMethod] = useState('wallet');
   const [amount, setAmount] = useState('');
+  
 
   const [modalVisible, setModalVisible] = useState(false);
   const [topUpModalVisible, setTopUpModalVisible] = useState(false);
@@ -24,11 +25,23 @@ const Unverified_HomePage = ({ navigation }) => {
   const closeTopUpModal = () => setTopUpModalVisible(false);
 
   const Checkbox = ({ isSelected, onPress, label }) => (
-    <TouchableOpacity style={[styles.checkboxBase, isSelected && styles.checkboxChecked]} onPress={onPress}>
+    <TouchableOpacity style={styles.checkboxBase} onPress={onPress}>
+      <View style={styles.checkboxIcon}>
+        {isSelected && <Image source={require('../assets/tick.png')} style={styles.checkboxTick} />}
+      </View>
       <Text style={styles.checkboxLabel}>{label}</Text>
     </TouchableOpacity>
   );
-
+  const handleSendMoney = () => {
+    const amountNumber = parseFloat(amount); // Convert the input string to a float
+    if (!isNaN(amountNumber) && amountNumber > 0 && amountNumber <= balance) {
+      setBalance(currentBalance => currentBalance - amountNumber); // Subtract amount from balance
+      setAmount(''); // Reset amount input
+      closeModal(); // Close the modal
+    } else {
+      alert('Invalid amount or insufficient balance.'); // Show error if amount is invalid or not enough balance
+    }
+  };
   useEffect(() => {
     if (isUSD) {
       setBalance(100);
@@ -89,43 +102,49 @@ const Unverified_HomePage = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <Modal
-            visible={modalVisible}
-            transparent={true}
-            animationType="slide"
-            onRequestClose={closeModal}
-          >
-            <TouchableOpacity
-              style={styles.modalOverlay}
-              activeOpacity={1}
-              onPressOut={closeModal}
+              visible={modalVisible}
+              transparent={true}
+              animationType="slide"
+              onRequestClose={closeModal}
             >
-              <View style={styles.modalContent}>
-                <Text style={styles.modalTitle}>Send Money</Text>
-                <View style={styles.checkboxContainer}>
-                  <Checkbox
-                    isSelected={paymentMethod === 'wallet'}
-                    onPress={() => setPaymentMethod('wallet')}
-                    label="Wallet"
+              <TouchableOpacity
+                style={styles.modalOverlay}
+                activeOpacity={1}
+                onPressOut={closeModal}
+              >
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalTitle}>Send Money</Text>
+                  <View style={styles.checkboxContainer}>
+                    <Checkbox
+                      isSelected={paymentMethod === 'wallet'}
+                      onPress={() => setPaymentMethod('wallet')}
+                      label="Wallet"
+                    />
+                    <Checkbox
+                      isSelected={paymentMethod === 'card'}
+                      onPress={() => setPaymentMethod('card')}
+                      label="Card"
+                    />
+                  </View>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={setAmount}
+                    value={amount}
+                    placeholder="Amount"
+                    keyboardType="numeric"
                   />
-                  <Checkbox
-                    isSelected={paymentMethod === 'card'}
-                    onPress={() => setPaymentMethod('card')}
-                    label="Card"
+                  <TextInput
+                    style={styles.input}
+                    placeholder="To"
+                    keyboardType="Text"
                   />
+                  <TouchableOpacity style={styles.sendButton} onPress={handleSendMoney}>
+                    <Text style={styles.sendButtonText}>Send</Text>
+                  </TouchableOpacity>
                 </View>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={setAmount}
-                  value={amount}
-                  placeholder="Amount"
-                  keyboardType="numeric"
-                />
-                <TouchableOpacity style={styles.sendButton} >
-                  <Text style={styles.sendButtonText}>Send</Text>
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          </Modal>
+              </TouchableOpacity>
+            </Modal>
+
           
           <Modal
         visible={modalVisible}
@@ -283,19 +302,28 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: 'row',
+    justifyContent: 'flex-start', // Align items to the start of the container
     marginBottom: 20,
-  },
+  },  
   checkboxBase: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: 'grey',
     padding: 5,
-    borderRadius: 5,
     marginRight: 10,
   },
-  checkboxChecked: {
-    backgroundColor: 'lightblue',
+  checkboxIcon: {
+    width: 20,
+    height: 20,
+    borderWidth: 2,
+    borderColor: 'grey',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 5,
+  },
+  checkboxTick: {
+    width: 15,
+    height: 15,
+    resizeMode: 'contain',
   },
   checkboxLabel: {
     marginLeft: 5,

@@ -17,7 +17,8 @@ import eyeOffLogo from '../assets/eye-icon.png';
 import eyeLogo from '../assets/blind-eye-sign.png';
 import { StackActions } from '@react-navigation/native';
 
-const CreateAccountScreen = ({ navigation }) => {
+const CreateAccountScreen = ({ navigation,route }) => {
+    const { phoneNumber } = route.params;
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

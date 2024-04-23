@@ -28,9 +28,7 @@ const WelcomeScreen = () => {
     };
 
     const handleContinue = () => {
-        navigation.dispatch(
-            StackActions.push('CreateAccount')
-        );
+        navigation.navigate('CreateAccount', { phoneNumber });
     };
 
     const handleLogin = () => {
@@ -307,7 +305,7 @@ const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: 'flex-end',
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: 'transparent',
     },
     modalView: {
         backgroundColor: 'white',
