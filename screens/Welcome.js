@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     enterMobile: {
+        top: 15,
         alignSelf: 'flex-start', // Aligns text to the left
         marginLeft: 20, // Adjust this as necessary for your layout
         fontSize: 26,

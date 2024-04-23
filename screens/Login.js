@@ -76,7 +76,7 @@ const Login = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.content}>
-                    <Text style={styles.loginHeader}>Log-in to your CoinCorp Account</Text>
+                    <Text style={styles.loginHeader}>Log-in to your CoinCorp Account!</Text>
                     <View style={styles.emailContainer}>
                         <Text style={styles.header1}>Email</Text>
                         <TextInput
@@ -237,10 +237,12 @@ const styles = StyleSheet.create({
         fontSize: 25,
         alignSelf: 'center',
         marginBottom: 10,
+        bottom: 230,
+        right: 35
     },
     emailContainer: {
         width: '100%',
-        marginBottom: 15,
+        marginBottom: 10
     },
     content: {
         width: '100%',

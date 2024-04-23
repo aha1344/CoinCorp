@@ -10,7 +10,7 @@ const Unverified_HomePage = ({ navigation }) => {
   const [currency, setCurrency] = useState('USD');
   const [isUSD, setIsUSD] = useState(true);
   const [cardColor, setCardColor] = useState('#076934');
-  const [phoneNumber, setPhoneNumber] = useState('+9617125964');
+  const [phoneNumber, setPhoneNumber] = useState('+961 71 259 564');
   const [activeTab, setActiveTab] = useState('home');
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const Unverified_HomePage = ({ navigation }) => {
               </TouchableOpacity>
               <TouchableOpacity >
                 <Image source={require('../assets/qrcode.png')} style={styles.boxes} />
-                <Text style={styles.texts}>Scan to pay</Text>
+                <Text style={styles.texts}>Scan</Text>
               </TouchableOpacity>
             </View>
 
@@ -116,7 +116,7 @@ const Unverified_HomePage = ({ navigation }) => {
               </TouchableOpacity>
               <TouchableOpacity >
                 <Image source={require('../assets/Withdraw.png')} style={styles.boxes} />
-                <Text style={styles.texts}>withdraw</Text>
+                <Text style={styles.texts}>Withdraw</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -187,6 +187,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
+    top: 10,
+    left: 20
   },
   unverified: {
     marginLeft: 10,
@@ -195,19 +197,25 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginLeft: 5,
+    top: 10,
+    left: 20
   },
   texts: {
     textAlign: 'center',
+    marginRight: 2
   },
   phone: {
     color: 'white',
     fontSize: 16,
     marginRight: 10,
+    top: 20,
+    left: 20
   },
   settingsIcon: {
     width: 20,
     height: 20,
     resizeMode: 'contain',
+    right: 18
   },
   creditCard: {
     padding: 20,
@@ -256,6 +264,7 @@ const styles = StyleSheet.create({
     width: 70,
     borderRadius: 20,
     marginBottom: 20,
+    left: -1
   },
   bottomNavigation: {
     flexDirection: 'row',
@@ -271,6 +280,8 @@ const styles = StyleSheet.create({
     width: 65,
     height: 65,
     borderRadius: 50,
+    top: 9,
+    left: 15
   },
   activeTab: {
     borderTopWidth: 5,
