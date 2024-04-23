@@ -12,7 +12,7 @@ const WelcomeScreen = () => {
     const navigation = useNavigation();
     const countryCodeButtonRef = useRef(null);
     const [showCountryCodes, setShowCountryCodes] = useState(false);
-    const [selectedCountryCode, setSelectedCountryCode] = useState('+1');
+    const [selectedCountryCode, setSelectedCountryCode] = useState('+961');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [countryCodeButtonLayout, setCountryCodeButtonLayout] = useState(null);
 
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         height: '20%',
     },
     welcomeText: {
-        marginTop: 20,
+        marginTop: 15,
         color: 'white',
         fontSize: 30,
         fontWeight: 'bold',

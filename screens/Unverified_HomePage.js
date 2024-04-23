@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Switch } from 'react-native-paper';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Modal,TextInput} from 'react-native';
+import { Switch, Checkbox } from 'react-native-paper';
 import History from './History'; // Import the HistoryContent component
 import Friends from './Friends'; // Import the FriendsContent component
 import Cards from './Cards'; // Import the CardsContent component
@@ -12,6 +12,22 @@ const Unverified_HomePage = ({ navigation }) => {
   const [cardColor, setCardColor] = useState('#076934');
   const [phoneNumber, setPhoneNumber] = useState('+961 71 259 564');
   const [activeTab, setActiveTab] = useState('home');
+  const [paymentMethod, setPaymentMethod] = useState('wallet');
+  const [amount, setAmount] = useState('');
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [topUpModalVisible, setTopUpModalVisible] = useState(false);
+
+  const openModal = () => setModalVisible(true);
+  const closeModal = () => setModalVisible(false);
+  const openTopUpModal = () => setTopUpModalVisible(true);
+  const closeTopUpModal = () => setTopUpModalVisible(false);
+
+  const Checkbox = ({ isSelected, onPress, label }) => (
+    <TouchableOpacity style={[styles.checkboxBase, isSelected && styles.checkboxChecked]} onPress={onPress}>
+      <Text style={styles.checkboxLabel}>{label}</Text>
+    </TouchableOpacity>
+  );
 
   useEffect(() => {
     if (isUSD) {
@@ -72,7 +88,84 @@ const Unverified_HomePage = ({ navigation }) => {
               <Image source={require('../assets/settings.png')} style={styles.settingsIcon} />
             </TouchableOpacity>
           </View>
-
+          <Modal
+            visible={modalVisible}
+            transparent={true}
+            animationType="slide"
+            onRequestClose={closeModal}
+          >
+            <TouchableOpacity
+              style={styles.modalOverlay}
+              activeOpacity={1}
+              onPressOut={closeModal}
+            >
+              <View style={styles.modalContent}>
+                <Text style={styles.modalTitle}>Send Money</Text>
+                <View style={styles.checkboxContainer}>
+                  <Checkbox
+                    isSelected={paymentMethod === 'wallet'}
+                    onPress={() => setPaymentMethod('wallet')}
+                    label="Wallet"
+                  />
+                  <Checkbox
+                    isSelected={paymentMethod === 'card'}
+                    onPress={() => setPaymentMethod('card')}
+                    label="Card"
+                  />
+                </View>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={setAmount}
+                  value={amount}
+                  placeholder="Amount"
+                  keyboardType="numeric"
+                />
+                <TouchableOpacity style={styles.sendButton} >
+                  <Text style={styles.sendButtonText}>Send</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          </Modal>
+          
+          <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={closeModal}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPressOut={closeModal}
+        >
+          <View style={styles.modalContent}>
+            <Text>Send Money</Text>
+            <TouchableOpacity onPress={closeModal}>
+              <Text>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+        {/* New Modal for Top-up */}
+        <Modal
+          visible={topUpModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={closeTopUpModal}
+        >
+          <TouchableOpacity
+            style={styles.modalOverlay}
+            activeOpacity={1}
+            onPressOut={closeTopUpModal}
+          >
+            <View style={styles.modalContent}>
+              <Text>Top Up Account</Text>
+              <TouchableOpacity onPress={closeTopUpModal}>
+                <Text>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </Modal>
           <View style={[styles.creditCard, { backgroundColor: cardColor }]}>
             <Text style={styles.walletBalance}>Wallet Balance</Text>
             <Text style={styles.balance}>{formatBalance(balance, currency)}</Text>
@@ -91,11 +184,11 @@ const Unverified_HomePage = ({ navigation }) => {
               <Text style={styles.paymentText}>Payment Options</Text>
 
             <View style={[styles.optionButtons]}>
-              <TouchableOpacity>
-                <Image source={require('../assets/Send.png')} style={styles.boxes} />
-                <Text style={styles.texts}>Send</Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
+            <TouchableOpacity onPress={openModal}>
+              <Image source={require('../assets/Send.png')} style={styles.boxes} />
+              <Text style={styles.texts}>Send</Text>
+            </TouchableOpacity>
+              <TouchableOpacity onPress={openTopUpModal}>
                 <Image source={require('../assets/Top-up.png')} style={styles.boxes} />
                 <Text style={styles.texts}>Top-up</Text>
               </TouchableOpacity>
@@ -165,8 +258,67 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   container1: {
+    flex: 1,
     backgroundColor: 'white',
     height: '100%',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    elevation: 20,
+    alignItems: 'center',
+    width: '80%',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+  checkboxBase: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'grey',
+    padding: 5,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  checkboxChecked: {
+    backgroundColor: 'lightblue',
+  },
+  checkboxLabel: {
+    marginLeft: 5,
+  },
+  input: {
+    width: '90%',
+    padding: 12,
+    borderWidth: 1.5,
+    borderColor: 'gray',
+    borderRadius: 5,
+    marginBottom: 20,
+  },
+  sendButton: {
+    backgroundColor: 'black',
+    padding: 15,
+    borderRadius: 5,
+    width: '90%',
+    alignItems: 'center',
+  },
+  sendButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   topSection: {
     flexDirection: 'row',

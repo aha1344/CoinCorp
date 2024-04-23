@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         paddingHorizontal: 20,
+        backgroundColor: 'white',
     },
     header: {
         alignSelf: 'stretch',
@@ -237,8 +238,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         alignSelf: 'center',
         marginBottom: 10,
-        bottom: 230,
-        right: 35
+        bottom: 230
     },
     emailContainer: {
         width: '100%',
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     input: {
-        borderWidth: 1,
+        borderWidth: 0.5,
         borderColor: 'gray',
         borderRadius: 5,
         padding: 10,
