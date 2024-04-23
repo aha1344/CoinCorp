@@ -10,6 +10,11 @@ import ResetScreen from './screens/Reset_Password';
 import SuccessfulScreen from './Successfull_Reset';
 import OTPScreen from './screens/OTP';
 import HistoryScreen from './screens/HistoryScreen';
+import FriendsScreen from './screens/Friends';
+import AddFriendsScreen from './screens/Addfriends';
+import NotificationsScreen from './screens/Notifications';
+import SettingsScreen from './screens/Settings';
+import CardScreen from './screens/Card';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +29,11 @@ const AppNavigator = () => {
       <Stack.Screen name="Successfulreset" component={SuccessfulScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />
       <Stack.Screen name="History" component={HistoryScreen} />
+      <Stack.Screen name="Friends" component={FriendsScreen} />
+      <Stack.Screen name="AddFriends" component={AddFriendsScreen} />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="Card" component={CardScreen} />
     </Stack.Navigator>
   );
 };

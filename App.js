@@ -13,6 +13,11 @@ import ResetScreen from './screens/Reset_Password';
 import SuccessfulScreen from './screens/Successfull_Reset';
 import OTPScreen from './screens/OTP';
 import HistoryScreen from './screens/History';
+import FriendsScreen from './screens/Friends';
+import AddFriendsScreen from './screens/Addfriends';  
+import NotificationsScreen from './screens/Notifications';
+import SettingsScreen from './screens/Settings';
+import CardScreen from './screens/Cards';
 
 
 const Stack = createStackNavigator();
@@ -43,6 +48,11 @@ export default function App() {
         <Stack.Screen name="Successfulreset" component={SuccessfulScreen} options={{headerShown: false}}/>
         <Stack.Screen name="OTP" component={OTPScreen} options={{headerShown: false}}/>
         <Stack.Screen name="History" component={HistoryScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Friends" component={FriendsScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="AddFriends" component={AddFriendsScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Notifications" component={NotificationsScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Settings" component={SettingsScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Cards" component={CardScreen} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

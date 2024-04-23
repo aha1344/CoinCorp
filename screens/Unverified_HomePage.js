@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Switch } from 'react-native-paper';
 import History from './History'; // Import the HistoryContent component
+import Friends from './Friends'; // Import the FriendsContent component
+import Cards from './Cards'; // Import the CardsContent component
 
 const Unverified_HomePage = ({ navigation }) => {
   const [balance, setBalance] = useState(100);
@@ -29,6 +31,7 @@ const Unverified_HomePage = ({ navigation }) => {
     }
     setIsUSD(!isUSD);
   };
+  
 
   const handleTabPress = (tabName) => {
     if (tabName === activeTab) {
@@ -38,7 +41,7 @@ const Unverified_HomePage = ({ navigation }) => {
   };
 
   const handleSettingsPress = () => {
-    // handle settings press here
+    navigation.navigate('Settings');
   };
 
   const formatBalance = (balance, currency) => {
@@ -124,6 +127,13 @@ const Unverified_HomePage = ({ navigation }) => {
       {activeTab === 'history' && (
         <History />
       )}
+      {activeTab === 'friends' && (
+        <Friends />
+      )}
+      {activeTab === 'cards' && (
+        <Cards />
+      )}
+
 
       <View style={styles.bottomNavigation}>
         <TouchableOpacity
