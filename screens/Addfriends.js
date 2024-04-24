@@ -1,13 +1,30 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const AddFriendsScreen = () => {
     const navigation = useNavigation();
+    const [searchResults, setSearchResults] = useState([
+        { id: 1, name: 'John Doe', number: '1234567890', isFriend: false, requestSent: false },
+        { id: 2, name: 'Jane Smith', number: '9876543210', isFriend: true, requestSent: false },
+        { id: 3, name: 'Bob Johnson', number: '5555555555', isFriend: false, requestSent: true },
+    ]);
 
     // Function to navigate back to Friends screen
     const goBack = () => {
         navigation.goBack();
+    };
+
+    // Function to handle friend request button press
+    const handleFriendRequest = (userId) => {
+        setSearchResults((prevResults) =>
+            prevResults.map((user) => {
+                if (user.id === userId) {
+                    return { ...user, requestSent: true };
+                }
+                return user;
+            })
+        );
     };
 
     return (
@@ -23,7 +40,6 @@ const AddFriendsScreen = () => {
                     <Text style={styles.title}>Add Friends</Text>
                 </View>
             </View>
-
             {/* Search bar */}
             <View style={styles.searchBar}>
                 <TextInput
@@ -32,8 +48,42 @@ const AddFriendsScreen = () => {
                     placeholderTextColor="#aaa"
                 />
             </View>
-
-
+            {/* Search results */}
+            <View style={styles.searchResults}>
+                {searchResults.map((user) => (
+                    <View key={user.id} style={styles.userItem}>
+                        <Image
+                            source={require('../assets/user.png')}
+                            style={styles.profilePicture}
+                        />
+                        <View style={styles.userInfo}>
+                            <Text style={styles.userName}>{user.name}</Text>
+                            <Text style={styles.userNumber}>{user.number}</Text>
+                        </View>
+                        <TouchableOpacity
+                            onPress={() => handleFriendRequest(user.id)}
+                            style={[
+                                styles.friendRequestButton,
+                                user.requestSent && styles.friendRequestButtonSent,
+                                user.isFriend && styles.friendRequestButtonDisabled,
+                            ]}
+                            disabled={user.isFriend || user.requestSent}
+                        >
+                            <Text style={[
+                                styles.friendRequestButtonText,
+                                user.requestSent && styles.friendRequestButtonTextSent,
+                                user.isFriend && styles.friendRequestButtonTextDisabled,
+                            ]}>
+                                {user.isFriend
+                                    ? 'Already friends'
+                                    : user.requestSent
+                                        ? 'Request sent'
+                                        : 'Add friend'}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                ))}
+            </View>
         </View>
     );
 };
@@ -89,12 +139,62 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'grey',
         height: 40,
-
     },
     searchBarInput: {
         marginTop: 9,
         fontSize: 16,
         color: 'black',
+    },
+    searchResults: {
+        marginHorizontal: 20,
+    },
+    userItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    profilePicture: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        marginRight: 10,
+    },
+    userInfo: {
+        flex: 1,
+    },
+    userName: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    userNumber: {
+        fontSize: 14,
+        color: 'gray',
+    },
+    friendRequestButton: {
+        backgroundColor: 'black',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 5,
+    },
+    friendRequestButtonSent: {
+        backgroundColor: 'white',
+        borderWidth: 1,
+    },
+    friendRequestButtonDisabled: {
+        backgroundColor: 'lightgray',
+    },
+    friendRequestButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    friendRequestButtonTextSent: {
+        color: 'black',
+        outlineColor: 'black',
+
+    },
+    friendRequestButtonTextDisabled: {
+        color: 'gray',
     },
 });
 

@@ -1,13 +1,168 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const NotificationsScreen = () => {
     const navigation = useNavigation();
+    const [notifications, setNotifications] = useState([
+        {
+            id: 1,
+            type: 'friendRequest',
+            senderName: 'John Doe',
+        },
+        {
+            id: 2,
+            type: 'moneyRequest',
+            senderName: 'Jane Smith',
+            amount: '$50',
+            message: 'Can you lend me some money?',
+        },
+        {
+            id: 3,
+            type: 'moneySend',
+            senderName: 'Bob Johnson',
+            amount: '$100',
+            message: 'Here\'s the money I owe you.',
+        },
+    ]);
+    const [searchText, setSearchText] = useState('');
 
     // Function to navigate back to Friends screen
     const goBack = () => {
         navigation.goBack();
+    };
+
+    // Function to handle accepting a friend request
+    const acceptFriendRequest = (id) => {
+        // Logic to add the user as a friend
+        // Remove the notification from the list
+        setNotifications((prevNotifications) =>
+            prevNotifications.filter((notification) => notification.id !== id)
+        );
+    };
+
+    // Function to handle rejecting a friend request
+    const rejectFriendRequest = (id) => {
+        // Remove the notification from the list
+        setNotifications((prevNotifications) =>
+            prevNotifications.filter((notification) => notification.id !== id)
+        );
+    };
+
+    // Function to handle accepting a money request
+    const acceptMoneyRequest = (id) => {
+        // Logic to remove the money from the account and send it to the user
+        // Remove the notification from the list
+        setNotifications((prevNotifications) =>
+            prevNotifications.filter((notification) => notification.id !== id)
+        );
+    };
+
+    // Function to handle rejecting a money request
+    const rejectMoneyRequest = (id) => {
+        // Remove the notification from the list
+        setNotifications((prevNotifications) =>
+            prevNotifications.filter((notification) => notification.id !== id)
+        );
+    };
+
+    // Function to handle accepting a money send
+    const acceptMoneySend = (id) => {
+        // Logic to add the money to the account
+        // Remove the notification from the list
+        setNotifications((prevNotifications) =>
+            prevNotifications.filter((notification) => notification.id !== id)
+        );
+    };
+
+    // Function to handle rejecting a money send
+    const rejectMoneySend = (id) => {
+        // Remove the notification from the list
+        setNotifications((prevNotifications) =>
+            prevNotifications.filter((notification) => notification.id !== id)
+        );
+    };
+
+    // Function to render notification item
+    const renderNotificationItem = ({ item }) => {
+        const filteredNotification = item.senderName.toLowerCase().includes(searchText.toLowerCase()) ||
+            (item.message && item.message.toLowerCase().includes(searchText.toLowerCase()));
+
+        if (!filteredNotification) {
+            return null;
+        }
+
+        if (item.type === 'friendRequest') {
+            return (
+                <View style={styles.notificationItem}>
+                    <Text style={[styles.notificationText, { flex: 1, flexWrap: 'wrap' }]}>{item.senderName} has sent you a friend request</Text>
+                    <View style={styles.verticalButtonContainer}>
+                        <TouchableOpacity
+                            style={[styles.button, styles.acceptButton]}
+                            onPress={() => acceptFriendRequest(item.id)}
+                        >
+                            <Text style={styles.buttonText}>Accept</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.button, styles.rejectButton]}
+                            onPress={() => rejectFriendRequest(item.id)}
+                        >
+                            <Text style={styles.buttonText}>Reject</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            );
+        } else if (item.type === 'moneyRequest') {
+            return (
+                <View style={styles.notificationItem}>
+                    <View style={styles.notificationContent}>
+                        <Text style={styles.notificationText}>
+                            {item.senderName} has requested {item.amount}
+                        </Text>
+                        <Text style={styles.notificationMessage}>{item.message}</Text>
+                    </View>
+                    <View style={styles.verticalButtonContainer}>
+                        <TouchableOpacity
+                            style={[styles.button, styles.acceptButton]}
+                            onPress={() => acceptMoneyRequest(item.id)}
+                        >
+                            <Text style={styles.buttonText}>Accept</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.button, styles.rejectButton]}
+                            onPress={() => rejectMoneyRequest(item.id)}
+                        >
+                            <Text style={styles.buttonText}>Reject</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            );
+        } else if (item.type === 'moneySend') {
+            return (
+                <View style={styles.notificationItem}>
+                    <View style={styles.notificationContent}>
+                        <Text style={styles.notificationText}>
+                            {item.senderName} wants to send you {item.amount}
+                        </Text>
+                        <Text style={styles.notificationMessage}>{item.message}</Text>
+                    </View>
+                    <View style={styles.verticalButtonContainer}>
+                        <TouchableOpacity
+                            style={[styles.button, styles.acceptButton]}
+                            onPress={() => acceptMoneySend(item.id)}
+                        >
+                            <Text style={styles.buttonText}>Accept</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.button, styles.rejectButton]}
+                            onPress={() => rejectMoneySend(item.id)}
+                        >
+                            <Text style={styles.buttonText}>Reject</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            );
+        }
     };
 
     return (
@@ -23,22 +178,28 @@ const NotificationsScreen = () => {
                     <Text style={styles.title}>Notifications</Text>
                 </View>
             </View>
-
             {/* Search bar */}
             <View style={styles.searchBar}>
                 <TextInput
                     style={styles.searchBarInput}
                     placeholder="Search notifications..."
                     placeholderTextColor="#aaa"
+                    value={searchText}
+                    onChangeText={(text) => setSearchText(text)}
                 />
             </View>
-
             {/* Content */}
             <View style={styles.content}>
                 {/* If no notifications are present, display message */}
-                <Text style={styles.noNotificationsText}>You have no new notifications.</Text>
+                {notifications.length === 0 && (
+                    <Text style={styles.noNotificationsText}>You have no new notifications.</Text>
+                )}
                 {/* Otherwise, display notifications list */}
-                {/* Add your notifications list here */}
+                <FlatList
+                    data={notifications}
+                    renderItem={renderNotificationItem}
+                    keyExtractor={(item) => item.id.toString()}
+                />
             </View>
         </View>
     );
@@ -86,7 +247,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'grey',
         height: 40,
-
     },
     searchBarInput: {
         marginTop: 9,
@@ -95,12 +255,56 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        paddingHorizontal: 20,
     },
     noNotificationsText: {
         fontSize: 18,
         color: 'gray',
+        textAlign: 'center',
+        marginTop: 20,
+    },
+    notificationItem: {
+        flexDirection: 'row',
+        alignItems: 'flex-start', // Align items at the top
+        justifyContent: 'space-between',
+        paddingVertical: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+    },
+    notificationContent: {
+        flex: 1,
+        marginRight: 10,
+    },
+    notificationText: {
+        fontSize: 16,
+        marginBottom: 5,
+        fontWeight: 'bold',
+    },
+    notificationMessage: {
+        fontSize: 14,
+        color: 'gray',
+    },
+    verticalButtonContainer: {
+        alignItems: 'flex-end',
+    },
+    button: {
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 5,
+        marginVertical: 5,
+        width: 80, // Set a fixed width for buttons
+    },
+    acceptButton: {
+        backgroundColor: 'green',
+    },
+    rejectButton: {
+        backgroundColor: 'red',
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 12.5,
+        textAlign: 'center',
     },
 });
 
