@@ -59,7 +59,10 @@ const CreditCard = ({ card, showDetails, onToggleVisibility }) => {
                 </View>
                 <View style={styles.visaCrinfo}>
                     <Text style={[styles.expDate, { color: colorScheme.tertiary }]}>{showDetails ? card.expDate : '**/**'}</Text>
-                    <Text style={[styles.cardholderName, { color: colorScheme.tertiary }]}>{card.fullName}</Text>
+                    <View style={styles.cardDetailsContainer}>
+                        <Text style={[styles.cardholderName, { color: colorScheme.tertiary }]}>{card.fullName}</Text>
+                        <Text style={[styles.cvv, { color: colorScheme.tertiary }]}>CVV: {showDetails ? card.cvv : '***'}</Text>
+                    </View>
                 </View>
             </View>
         </View>
@@ -128,18 +131,25 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     cardNumber: {
-        fontSize: 18, // Adjust the font size to a smaller value
+        fontSize: 18,
         letterSpacing: 2,
     },
     visaCrinfo: {
         marginTop: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
     },
     expDate: {
         fontSize: 16,
     },
+    cardDetailsContainer: {
+        alignItems: 'flex-end',
+    },
     cardholderName: {
+        fontSize: 16,
+    },
+    cvv: {
         fontSize: 16,
     },
     visibilityIcon: {
