@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 
-const FriendsScreen = () => {    const [friendsCount] = useState(0); // State to track the number of friends
+const FriendsScreen = () => {
+    const [friendsCount] = useState(0); // State to track the number of friends
     const navigation = useNavigation();
     const goToNotifications = () => {
         navigation.navigate('Notifications');
@@ -42,19 +43,12 @@ const FriendsScreen = () => {    const [friendsCount] = useState(0); // State to
                     placeholderTextColor="#aaa"
                 />
             </View>
-
-
             {/* Content */}
             <View style={styles.content}>
                 {/* If no friends are added, display message */}
                 {friendsCount === 0 && <Text style={styles.noFriendsText}>You have no friends yet.</Text>}
                 {/* Otherwise, display friends list */}
                 {/* Add your friends list here */}
-            </View>
-
-            {/* Bottom navigation */}
-            <View style={styles.bottomNavigation}>
-                {/* Your bottom navigation buttons */}
             </View>
         </View>
     );
@@ -95,14 +89,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'gray',
     },
-    bottomNavigation: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        borderTopWidth: 1,
-        borderTopColor: 'lightgray',
-        paddingVertical: 10,
-    },
+
     searchBar: {
         marginTop: 15, // Add margin to position below title
         marginBottom: 10, // Add margin for spacing
