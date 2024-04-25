@@ -17,9 +17,33 @@ const Login = ({ navigation }) => {
     const [selectedCountryCode, setSelectedCountryCode] = useState('+1');
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    const handleLogin = () => {
-        navigation.dispatch(StackActions.push('SuccessfulSignup'));
+    const handleLogin = async () => {
+        try {
+            const response = await fetch('http://192.168.1.102:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Invalid credentials');
+            }
+    
+            const data = await response.json();
+    
+            // Extract auth token from response and pass it as parameter to navigation function
+            navigation.dispatch(StackActions.push('Unverified_HomePage', { authToken: data.token }));
+        } catch (error) {
+            console.error('Login failed:', error.message);
+            // Handle login error, e.g., show error message to the user
+        }
     };
+    
 
     const togglePasswordVisibility = () => {
         setPasswordVisibility(!passwordVisibility);

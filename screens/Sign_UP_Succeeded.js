@@ -5,7 +5,7 @@ const greenCheck = require('../assets/greencheck.png');
 
 const SuccessfulSignup = ({ navigation }) => {
     const navigateToHomePage = () => {
-        navigation.navigate('Unverified_HomePage');
+        navigation.navigate('Welcome');
     };
 
     return (
